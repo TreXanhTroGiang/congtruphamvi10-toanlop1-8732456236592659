@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Ôn Phép Cộng Trừ</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      width: 100%;
+      height: 100%;
+      background-image: url('vuon.png');
+      background-size: cover;
+      font-family: sans-serif;
+    }
+#huongDan {
+  position: absolute;
+  top: 20px;
+  width: 90%;
+  background-color: #d0f0ff; /* Xanh nhạt */
+  color: #005599;            /* Xanh đậm */
+  padding: 20px 30px;
+  font-size: 24px;
+  font-weight: bold;
+  border-radius: 15px;
+  text-align: center;
+  border: 2px solid #0077aa;
+  box-shadow: 4px 4px #bbb;
+  z-index: 10;
+}
+    #menu, #gameArea {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+    }
+    .bang {
+      background-color: yellow; /* Nền vàng */
+  color: green;              /* Chữ xanh lá cây */
+  margin: 10px;
+  padding: 20px 40px;
+  font-size: 30px;
+  cursor: pointer;
+  border-radius: 10px;
+  font-weight: bold;
+  border: 3px solid green;   /* Tùy chọn: tạo viền nổi bật */
+  box-shadow: 4px 4px #ccc;  /* Tùy chọn: tạo chiều sâu */
+    }
+.bang:hover {
+  background-color: gold;
+  color: darkgreen;
+}
+    #gameArea {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      padding-top: 30px;
+    }
+
+    #qaBox {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    #question {
+      font-size: 48px;
+      margin: 10px 0;
+      font-weight: bold;
+      color: #000;
+      text-shadow: 2px 2px #fff;
+      background-color: yellow;
+      padding: 20px 40px;
+      border-radius: 12px;
+      border: 3px solid #000;
+      position: relative;
+      z-index: 15;
+    }
+    #options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      position: relative;
+      z-index: 15;
+    }
+    .option {
+      background-color: #fff;
+      padding: 20px 60px;
+      font-size: 36px;
+      border-radius: 12px;
+      cursor: pointer;
+      border: 3px solid #000;
+      box-shadow: 4px 4px #ccc;
+/* Thêm dòng này để mượt mà khi phóng to */
+  transition: transform 0.2s ease, background-color 0.2s ease;
+    }
+.option:hover {
+  background-color: #ffe0f0; /* hồng nhạt */
+  color: pink;
+color: #d60000; /* đỏ nổi bật */
+  transform: scale(1.2);
+  transition: all 0.2s ease;
+}
+    #senDa {
+      position: absolute;
+      left: 20px;
+      bottom: 50px;
+      width: 250px;
+      z-index: 4;
+    }
+    .aTarget {
+      position: absolute;
+      bottom: 10px;
+      right: -150px;
+      width: 350px;
+      transition: right 25s linear;
+      z-index: 5;
+      animation: shake 2s infinite ease-in-out;
+    }
+    #replayBtn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      padding: 10px 20px;
+      font-size: 20px;
+      background-color: #f90;
+      border-radius: 10px;
+      cursor: pointer;
+      z-index: 20;
+    }
+    #scoreBoard {
+      position: absolute;
+      top: 70px;
+      right: 20px;
+      background: rgba(255,255,255,0.8);
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-size: 24px;
+      font-weight: bold;
+      z-index: 20;
+    }
+    .dan {
+      position: absolute;
+      width: 70px;
+      transition: left 1s linear, top 1s linear;
+      z-index: 11;
+    }
+    #winMessage {
+      position: absolute;
+      top: 30%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 52px;
+      font-weight: bold;
+      color: red;
+      background-color: yellow;
+      padding: 20px 40px;
+      border-radius: 20px;
+      text-shadow: 3px 3px #000;
+      display: none;
+      text-align: center;
+      white-space: nowrap;
+      z-index: 30;
+      border: 3px solid red;
+    }
+    #cup {
+      position: absolute;
+      top: 80%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 200px;
+      display: none;
+      z-index: 31;
+    }
+    @keyframes shake {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(1.5deg); }
+      50% { transform: rotate(-1.5deg); }
+      75% { transform: rotate(1deg); }
+    }
+#progressBar{
+   position: absolute;
+  top: 30px;                   /* điều chỉnh khoảng cách từ trên xuống */
+  left: 50%;
+  transform: translateX(-50%); /* căn giữa ngang */
+  display: flex;
+  gap: 12px;
+  z-index: 20;
+}
+.square{
+  width:60px;height:60px;
+  display:flex;justify-content:center;align-items:center;
+  font-size:28px;font-weight:bold;
+  color:#000;
+  background:#eee;       /* màu mặc định */
+  border:3px solid #555;
+  border-radius:10px;
+}
+.correct { background:#53d254;       /* xanh lá */  color:#fff; }
+.wrong   { background:#ffb5d6;       /* hồng nhạt */ color:#000; }
+
+  </style>
+</head>
+<body>
+  <div id="menu">
+<div id="huongDan">
+  Hãy giúp cây hoa hồng ngăn cản sự tấn công của các con sâu bằng cách hoàn thành đúng các phép tính.
+</div>
+    <div class="bang" onclick="startGame('add')">Phép cộng trong phạm vi 10</div>
+    <div class="bang" onclick="startGame('sub')">Phép trừ trong phạm vi 10</div>
+  </div>
+
+  <div id="gameArea">
+<div id="progressBar">
+  <!-- Tạo 8 ô, đánh số 1‑8 -->
+  <div class="square">1</div><div class="square">2</div>
+  <div class="square">3</div><div class="square">4</div>
+  <div class="square">5</div><div class="square">6</div>
+  <div class="square">7</div><div class="square">8</div>
+</div>
+
+    <audio id="bgm" src="nhac.mp3" loop></audio>
+
+    <div id="qaBox">
+      <div id="question"></div>
+      <div id="options"></div>
+    </div>
+
+    <img id="senDa" src="sen-da.gif">
+    <img id="cup" src="cup.png" style="display: none;">
+    <div id="winMessage">CHÚC MỪNG BẠN ĐÃ CHIẾN THẮNG</div>
+    <div id="replayBtn" onclick="location.reload()">CHƠI LẠI</div>
+    <div id="scoreBoard">Điểm: <span id="score">0</span></div>
+  </div>
+
+  <audio id="poc" src="poc.mp3"></audio>
+  <audio id="yeah" src="yeah.mp3"></audio>
+  <audio id="oh" src="oh.mp3"></audio>
+
+<script src="game.js"></script>
+</body>
+</html>
